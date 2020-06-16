@@ -1,7 +1,7 @@
 # CSC 413 - Project Two - The Interpreter
 
-## Student Name  : Name here
+## Student Name  : Javier Gonzalez
 
-## Student ID    : ID here
+## Student ID    : 916582412
 
-## Student Email : Email here
+## Student Email : jgonza39@mail.sfsu.edu
