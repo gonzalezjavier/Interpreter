@@ -36,7 +36,7 @@ public class ByteCodeLoader extends Object {
     public Program loadCodes() {
         String line;
         String[] items;
-        ArrayList<String> args = new ArrayList<>();
+        ArrayList<String> args;
         String className;       //class name after it is mapped from name in source code class name
         String byteCodeName;    //ByteCode name from the x.cod file
         Class classBlueprint;
@@ -44,6 +44,7 @@ public class ByteCodeLoader extends Object {
         ByteCode bc;
         try {
             while (this.byteSource.ready()) {
+                args = new ArrayList<>();
                 //tokenize read line
                 line = this.byteSource.readLine();
                 items = line.split("\\s+");
@@ -57,12 +58,16 @@ public class ByteCodeLoader extends Object {
                 //create a new instance of bytecode using constructor
                 bc = (ByteCode) classBlueprint.getDeclaredConstructor().newInstance();
 
-
                 //grab remaining arguments
                 //pass args to bytecode init function
+                int i=1;
+                while (i<items.length) {
+                    args.add(items[i++]);
+                }
                 bc.init(args);
                 //add bytecode to program
-                
+                program.add(bc);
+
             }
         } catch (IOException | ClassNotFoundException ex) {
             System.out.println(ex);
