@@ -15,8 +15,14 @@ public class ArgsCode extends ByteCode {
         n = Integer.parseInt(args.get(0));
     }
 
+
     @Override
     public void execute(VirtualMachine virtualMachine) {
         virtualMachine.newFrame(n);
+    }
+
+    @Override
+    public String toString(VirtualMachine virtualMachine) {
+        return "ARGS " + n + '\n';
     }
 }

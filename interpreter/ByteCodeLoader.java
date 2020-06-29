@@ -60,8 +60,8 @@ public class ByteCodeLoader extends Object {
 
                 //grab remaining arguments
                 //pass args to bytecode init function
-                int i=1;
-                while (i<items.length) {
+                int i = 1;
+                while (i < items.length) {
                     args.add(items[i++]);
                 }
                 bc.init(args);
@@ -75,6 +75,7 @@ public class ByteCodeLoader extends Object {
         } catch (IllegalAccessException | InstantiationException | InvocationTargetException | NoSuchMethodException e) {
             e.printStackTrace();
         }
+        //resolve the addresses of specified byte codes
         program.resolveAddress();
         return program;
     }

@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 //1 or 2 args
 //should only push one value to the top of the RTS
-//refer to dump specs
+//the 2nd arg is the identifier associated with the literal
 public class LitCode extends ByteCode {
     private int value;
     private String identifier;
@@ -22,5 +22,14 @@ public class LitCode extends ByteCode {
     @Override
     public void execute(VirtualMachine virtualMachine) {
         virtualMachine.pushRunTimeStack(value);
+    }
+
+    @Override
+    public String toString(VirtualMachine virtualMachine) {
+        String base = "LIT " + value;
+        if (identifier != null) {
+            base += (" " + identifier + "\tint " + identifier);
+        }
+        return base + '\n';
     }
 }

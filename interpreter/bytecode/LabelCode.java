@@ -4,6 +4,7 @@ import interpreter.virtualmachine.VirtualMachine;
 
 import java.util.ArrayList;
 
+//sole purpose is to mark locations to jump to in code
 public class LabelCode extends ByteCode {
     private String label;
 
@@ -20,4 +21,8 @@ public class LabelCode extends ByteCode {
     public void execute(VirtualMachine virtualMachine) {
     }
 
+    @Override
+    public String toString(VirtualMachine virtualMachine) {
+        return "LABEL " + label + "\n";
+    }
 }

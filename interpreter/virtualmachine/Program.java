@@ -25,7 +25,6 @@ public class Program {
     public void resolveAddress() {
         ArrayList<Integer> index = new ArrayList<>();
         ArrayList<String> value = new ArrayList<>();
-        //two for loops and you can do nested for loops
         //1st pass through the arrayList keeping track of label codes and their labels
         for (int i = 0; i < this.program.size(); i++) {
             if (this.program.get(i) instanceof LabelCode) {

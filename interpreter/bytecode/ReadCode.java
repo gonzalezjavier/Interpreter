@@ -5,6 +5,8 @@ import interpreter.virtualmachine.VirtualMachine;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+//read input from the user and checks if it is a proper input
+
 public class ReadCode extends ByteCode {
     @Override
     public void init(ArrayList<String> args) {
@@ -26,5 +28,10 @@ public class ReadCode extends ByteCode {
             }
         } while (check == 0);
         virtualMachine.pushRunTimeStack(Integer.parseInt(input));
+    }
+
+    @Override
+    public String toString(VirtualMachine virtualMachine) {
+        return "READ" + '\n';
     }
 }

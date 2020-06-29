@@ -2,6 +2,7 @@ package interpreter.virtualmachine;
 
 import interpreter.bytecode.ByteCode;
 
+import java.util.ArrayList;
 import java.util.Stack;
 
 public class VirtualMachine {
@@ -11,6 +12,7 @@ public class VirtualMachine {
     private Program program;
     private int programCounter;
     private boolean isRunning;
+    private String dump;
 
     public VirtualMachine(Program program) {
         this.program = program;
@@ -21,9 +23,14 @@ public class VirtualMachine {
         runTimeStack = new RunTimeStack();
         returnAddress = new Stack<Integer>();
         isRunning = true;
+        dump="OFF";
         while (isRunning) {
             ByteCode code = program.getCode(programCounter);
             code.execute(this);
+            if (dump.equals("ON")) {
+                System.out.print(code.toString(this));
+                dumpRunTimeStack();
+            }
             programCounter++;
         }
     }
@@ -63,6 +70,9 @@ public class VirtualMachine {
     public void popFrame() {
         runTimeStack.popFrame();
     }
+    public ArrayList<Integer> getTopRuntimeStackFrame(){
+        return runTimeStack.getTopRuntimeStackFrame();
+    }
 
     public void pushReturnAddress(int i) {
         returnAddress.push(i);
@@ -74,6 +84,14 @@ public class VirtualMachine {
 
     public void haltProgram() {
         isRunning = false;
+    }
+
+    public void switchDumpState(String state){
+        dump=state;
+    }
+
+    public void dumpRunTimeStack(){
+        runTimeStack.dump();
     }
 
 }

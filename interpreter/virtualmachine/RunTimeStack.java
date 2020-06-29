@@ -1,6 +1,8 @@
 package interpreter.virtualmachine;
 
+import java.sql.SQLOutput;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Stack;
 
 class RunTimeStack {
@@ -34,7 +36,12 @@ class RunTimeStack {
      * @return copy of the top of the stack
      */
     public int peek() {
-        return this.runTimeStack.get(this.runTimeStack.size() - 1);
+        if (!this.runTimeStack.isEmpty()) {
+            return this.runTimeStack.get(this.runTimeStack.size() - 1);
+        } else {
+            return 0;
+        }
+
     }
 
     /**
@@ -43,11 +50,7 @@ class RunTimeStack {
      * @return the value removed
      */
     public int pop() {
-        try {
-            return this.runTimeStack.remove(this.runTimeStack.size() - 1);
-        } catch (Exception exception) {
-            return 0;
-        }
+        return this.runTimeStack.remove(this.runTimeStack.size() - 1);
     }
 
     /**
@@ -58,7 +61,36 @@ class RunTimeStack {
      * Frame pointers would be 0,3,6
      **/
     public void dump() {
+        if (!runTimeStack.isEmpty()) {
+            //push an imaginary frame boundary that is the RTS.size()
+            //iterate through from beg to end of frame and then set the new values
+            //for beg and end to correspond to the new frames beginning and end
+            framePointer.push(runTimeStack.size());
+            int beg = framePointer.get(0);
+            int end;
 
+            int i = 1;
+            while (i < framePointer.size()) {
+                //start of a new frame
+                end = framePointer.get(i);
+                System.out.print('[');
+                while (beg < end) {
+                    //check if on the last number in the frame to avoid syntax errors
+                    if (beg == end - 1) {
+                        System.out.print(runTimeStack.get(beg++));
+                    } else {
+                        System.out.print(runTimeStack.get(beg++) + ",");
+                    }
+                }
+                System.out.print(']');
+                i++;
+            }
+            System.out.println();
+            //remove the frame pointer added in beginning
+            framePointer.pop();
+        } else {
+            System.out.println("[]");
+        }
     }
 
     /**
@@ -74,6 +106,8 @@ class RunTimeStack {
         value = this.runTimeStack.remove(this.runTimeStack.size() - 1);
         address = this.framePointer.peek() + offset;
         this.runTimeStack.add(address, value);
+        runTimeStack.remove(runTimeStack.size() - 1);
+
         return value;
     }
 
@@ -118,4 +152,24 @@ class RunTimeStack {
         }
         runTimeStack.add(lastElement);
     }
+
+    /**
+     * this is for printing out the top frame of the runtime stack
+     * to get the arguments going into the next function
+     *
+     * @return the top frame of the runtime stack
+     */
+    public ArrayList<Integer> getTopRuntimeStackFrame() {
+        ArrayList<Integer> topFrame = new ArrayList<>();
+        if (!runTimeStack.isEmpty()) {
+            int address;
+            int lastElement = runTimeStack.get(runTimeStack.size() - 1);
+            address = this.framePointer.peek();
+            for (int i = this.runTimeStack.size() - 1; i >= address; i--) {
+                topFrame.add(this.runTimeStack.get(i));
+            }
+        }
+        return topFrame;
+    }
+
 }

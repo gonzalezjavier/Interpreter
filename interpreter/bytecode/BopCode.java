@@ -4,8 +4,10 @@ import interpreter.virtualmachine.VirtualMachine;
 
 import java.util.ArrayList;
 
+//performs a binary operation on last two numbers in RTS
 public class BopCode extends ByteCode {
     private String operation;
+
 
     @Override
     public void init(ArrayList<String> args) {
@@ -75,5 +77,10 @@ public class BopCode extends ByteCode {
             }
         }
 
+    }
+
+    @Override
+    public String toString(VirtualMachine virtualMachine) {
+        return "BOP " + operation + '\n';
     }
 }
